@@ -12,6 +12,7 @@ int menu_get_input_file(char * user_filename)
 {
   printf("Q: Enter the filename of the input file:\n");
   scanf("%s", user_filename);
+  //Works till here
   return 0;
 }
 
@@ -20,7 +21,7 @@ int menu_search(Table table)
   KeyType key;
   InfoType info;
   printf("Q: Enter the key:\n");
-  scanf("%d", & key);
+  scanf("%s",  key);
   int pos = HashSearch(table, key);
 
   return pos;
@@ -32,7 +33,7 @@ int menu_insert(Table table)
   InfoType info;
 
   printf("Q: Enter the key:\n");
-  scanf("%d", & key);
+  scanf("%s",  key);
   printf("Q: Enter the first value:\n");
   scanf("%d", & info.first);
   printf("Q: Enter the second value:\n");
@@ -72,6 +73,7 @@ int menu_statistics_min_collisions(Table table,int * position)
 }
 
 
+
 void menu_insert_from_file(char * user_filename,Table table){
   /* assumes no word exceeds length of 1023 */
   FILE *file=fopen(user_filename, "r");
@@ -79,16 +81,21 @@ void menu_insert_from_file(char * user_filename,Table table){
     printf("ERROR: Error opening file..\n");
     return;
   }
-  int x;
-  while (fscanf(file, " %ds", &x) == 1) {
-    //printf("Just read '%d' from file\n", x );
+  char *x = (char*)malloc(100 * sizeof(char));
+  if(x == NULL){
+    printf("ERROR: can't allocate memory");
+    return;
+  }
+  
+
+  while (fscanf(file, "%s", x) > 0) {
     KeyType key=x;
     InfoType info;
     //info.first=0;
     //info.second=0;
     HashInsert(table,key,info);
   }
-  printf("INFO: You have to re-implement this function to store string values in HashTable...\n");
+  // printf("INFO: You have to re-implement this function to store string values in HashTable...\n");
   return;
 }
 
@@ -99,8 +106,13 @@ void menu_search_from_file(char * user_filename,Table table){
     printf("ERROR: Error opening file..\n");
     return;
   }
-  int x;
-  while (fscanf(file, " %ds", &x) == 1) {
+  char *x = (char*)malloc(100 * sizeof(char));
+  if(x == NULL){
+    printf("ERROR: can't allocate memory");
+    return;
+  }
+
+  while (fscanf(file, " %s", x) > 1) {
     //printf("Just read '%d' from file\n", x );
     KeyType key=x;
     InfoType info;

@@ -42,6 +42,7 @@ int main(void)
                   case INPUT_FILE:
                       menu_get_input_file(user_filename);
                       printf("INFO: The provided filename is %s\n", user_filename);
+
                       menu_insert_from_file(user_filename,table);
                       break;
                   case INSERT:

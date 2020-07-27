@@ -7,16 +7,41 @@
 #include <stdlib.h>
 #include "HashTableInterface.h"
 
-
+/*
 int h(KeyType K)
 {
   return K % TABLESIZE;
 }
 
-
 int p(KeyType K)
 {
-  return 1;  /* You have to implement this function. Currently it returns 1 so it implements open addressing with linear probing */
+   return 1 > (K / 7) ? 1 : K / 7;
+  // return 1;  // You have to implement this function. Currently it returns 1 so it implements open addressing with linear probing 
+}
+*/
+
+
+int h(KeyType K) {
+   int sum = 0;
+   
+   for(int i = 0; K[i] != '\0'; i++){
+
+      sum += (int)K[i];
+   }
+
+   return sum;
+}
+
+int p(KeyType K) {
+   int sum = 0;
+   
+   for(int i = 0; K[i] != '\0'; i++){
+
+      sum += (int)K[i];
+   }
+
+
+   return sum % TABLESIZE;
 }
 
 void Initialize(Table T) {
@@ -38,7 +63,13 @@ int HashInsert(Table T, KeyType K, InfoType I) {
       if (i<0)
         i+=TABLESIZE;
     }
-    T[i].Key=K;
+    T[i].Key = (char*)malloc(100 * sizeof(char));
+    if(T[i].Key == NULL) {
+       printf("ERROR allocating memory");
+    }
+    for(int j = 0; K[j] != '\0'; j++){
+       T[i].Key[j] = K[j];
+    }
     T[i].Info=I;
     return i;
 }
@@ -76,7 +107,7 @@ void Print(Table T){
       if(T[i].Key == EmptyKey){
         printf("Empty element in position %d\n", i);
       }else{
-        printf("Element in position %d with key \"%d\"\n",i,T[i].Key);
+        printf("Element in position %d with key \"%s\"\n",i,T[i].Key);
       }
     }
 }
