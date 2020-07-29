@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <limits.h>
 #include "HashTableTypes.h"
 #include "HashTableInterface.h"
 
@@ -48,8 +49,11 @@ int menu_statistics_total_collisions(Table table)
 {
   //You have to implement this function, you should also implement the related functionality for HashTable
   //It should return the total collisions measured in HashTable
-  printf("ERROR: Please, implement this function...\n");
-  return -1;
+  int sum = 0;
+  for(int i = 0; i < TABLESIZE; i++){
+      sum += table[i].Collisions;
+  }
+  return sum;
 }
 
 int menu_statistics_max_collisions(Table table,int * position)
@@ -57,25 +61,55 @@ int menu_statistics_max_collisions(Table table,int * position)
   //You have to implement this function, you should also implement the related functionality for HashTable
   //Parameter pos should return (to the caller function) the position of the bucket with the max collisions
   //The function should return the max collisions
-  printf("ERROR: Please, implement this function...\n");
-  *position = -1;
-  return -1;
+  
+  int cols[TABLESIZE];
+  for(int i = 0; i < TABLESIZE; i++){
+    cols[i] = table[i].Collisions;
+  }
+
+  int currentMax = 0;
+  int currentMaxIndex = 0;
+  
+  for(int i = 0; i < TABLESIZE; i++){
+    if(cols[i] > currentMax){
+      currentMax = cols[i];
+      currentMaxIndex = i;
+    }
+  }
+
+  *position = currentMaxIndex;
+
+  return currentMax;
 }
 
 int menu_statistics_min_collisions(Table table,int * position)
 {
-  //You have to implement this function, you should also implement the related functionality for HashTable
-  //Parameter pos should return (to the caller function) the position of the bucket with the max collisions
-  //The function should return the max collisions
-  printf("ERROR: Please, implement this function...\n");
-  *position = -1;
-  return -1;
+  
+  int cols[TABLESIZE];
+  for(int i = 0; i < TABLESIZE; i++){
+    cols[i] = table[i].Collisions;
+  }
+
+  int currentMin = 1000000000;
+  int currentMinIndex = 0;
+  
+  for(int i = 0; i < TABLESIZE; i++){
+    if(cols[i] < currentMin){
+      currentMin = cols[i];
+      currentMinIndex = i;
+    }
+  }
+
+  *position = currentMinIndex;
+
+  return currentMin;
 }
 
 
 
-void menu_insert_from_file(char * user_filename,Table table){
+long menu_insert_from_file(char * user_filename,Table table, float* avg){
   /* assumes no word exceeds length of 1023 */
+  time_t start = time(NULL);
   FILE *file=fopen(user_filename, "r");
   if (!file){
     printf("ERROR: Error opening file..\n");
@@ -88,15 +122,20 @@ void menu_insert_from_file(char * user_filename,Table table){
   }
   
 
+  int counter = 0;
+
   while (fscanf(file, "%s", x) > 0) {
     KeyType key=x;
     InfoType info;
     //info.first=0;
     //info.second=0;
     HashInsert(table,key,info);
+    counter++;
   }
-  // printf("INFO: You have to re-implement this function to store string values in HashTable...\n");
-  return;
+
+  time_t end = time(NULL);
+  *avg = 1.0 * (end - start) / counter;
+  return end - start;
 }
 
 void menu_search_from_file(char * user_filename,Table table){

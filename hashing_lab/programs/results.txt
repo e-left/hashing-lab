@@ -1,0 +1,7 @@
+(EnglishWords.txt, Hard.txt)
+                        Simple hashing algorithm        Polynomial algorithm        Cyclic shift algorithm                        
+Collisions:             671809, 812831040               9686, 433777
+Max collisions:         18772-0, 40319-804              12-3502, 44-9538
+Min collisions:         0-1, 0-32                       0-1, 0-10          
+Time to load:           0, 5                            0, 0
+Average time per word:  0, 0.000124                     0, 0

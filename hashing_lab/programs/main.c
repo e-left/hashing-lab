@@ -43,7 +43,9 @@ int main(void)
                       menu_get_input_file(user_filename);
                       printf("INFO: The provided filename is %s\n", user_filename);
 
-                      menu_insert_from_file(user_filename,table);
+                      float avg;
+                      long time_c = menu_insert_from_file(user_filename,table, &avg);
+                      printf("INFO: it took %ld seconds to load file, average word loading took %f seconds\n", time_c, avg);
                       break;
                   case INSERT:
                       pos=menu_insert(table);
@@ -68,7 +70,7 @@ int main(void)
                       printf("INFO: Max collisions: %d, position: %d\n",collisions,pos);
                       break;
                   case STATISTICS_MIN_COLLISIONS:
-                      collisions=menu_statistics_max_collisions(table,&pos);
+                      collisions=menu_statistics_min_collisions(table,&pos);
                       printf("INFO: Min collisions: %d, position: %d\n",collisions,pos);
                       break;
                   case SEARCH_FROM_FILE:

@@ -6,7 +6,7 @@
 
 int menu_get_input_file(char * user_filename);
 
-void menu_insert_from_file(char * user_filename,Table table);
+long menu_insert_from_file(char * user_filename,Table table, float* avg);
 
 int menu_search(Table table);
 

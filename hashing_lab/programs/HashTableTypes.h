@@ -17,6 +17,7 @@ typedef struct {
 typedef struct {
            KeyType Key;
            InfoType Info;
+           int Collisions;
          } TableEntry;
 typedef TableEntry Table[TABLESIZE];
 
