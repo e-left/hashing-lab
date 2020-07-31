@@ -129,9 +129,11 @@ long menu_insert_from_file(char * user_filename,Table table, float* avg){
     InfoType info;
     //info.first=0;
     //info.second=0;
+
     HashInsert(table,key,info);
     counter++;
   }
+
 
   time_t end = time(NULL);
   *avg = 1.0 * (end - start) / counter;

@@ -61,20 +61,14 @@ int h(KeyType K){
 }
 */
 
-//TODO segfault
 int h(KeyType K){
    unsigned int res = 0;
-   int len = 0;
    for(int i = 0; K[i] != '\0'; i++){
-      len++;
-   }
-
-   for(int i = 0; i < len; i++){
       res = (res << 5) | (res >> 27);
-      res += (unsigned int)K[i];
+      res += (unsigned int) K[i];
    }
 
-   return res;
+   return res % TABLESIZE;
 }
 
 void Initialize(Table T)
@@ -89,13 +83,18 @@ void Initialize(Table T)
 
 int HashInsert(Table T, KeyType K, InfoType I)
 {
+
    int i;
    int ProbeDecrement;
 
    i = h(K);
    ProbeDecrement = p(K);
+   // works
 
 
+   // doesn't work
+
+   // this top while part doesn't run
    while (T[i].Key != EmptyKey)
    {
       T[i].Collisions += 1;
@@ -104,6 +103,7 @@ int HashInsert(Table T, KeyType K, InfoType I)
          i += TABLESIZE;
    }
 
+   // this part
 
    T[i].Key = (char *)malloc(100 * sizeof(char));
    if (T[i].Key == NULL)

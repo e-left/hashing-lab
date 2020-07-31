@@ -45,6 +45,7 @@ int main(void)
 
                       float avg;
                       long time_c = menu_insert_from_file(user_filename,table, &avg);
+                      
                       printf("INFO: it took %ld seconds to load file, average word loading took %f seconds\n", time_c, avg);
                       break;
                   case INSERT:
